@@ -76,15 +76,18 @@ def create_csv_from_images(images_dir):
 
     for dir in subdirs:
         print("Directory: " + dir)
-        files = os.listdir(starting_dir + "/" + dir)
+        files = os.listdir(images_dir + "/" + dir)
         for file in files:
-            source_file = starting_dir + "/" + dir + "/" + file
+            source_file = images_dir + "/" + dir + "/" + file
             file_array = get_normalized_array_for_image(source_file)
-            numbers.append(file_array)
-     
-    return numbers,subdirs
+            labeled_array = [dir, file_array]
+            numbers.append(labeled_array)
+            
+    df = pd.DataFrame(numbers)            
+    df.to_csv( "./gear_images/data.csv")
+    return df
     
 starting_dir = "./gear_images/"
 result_dir = "./gear_images_normalized/"            
 
-numbers, subdirs = create_csv_from_images(starting_dir)
+df = create_csv_from_images(starting_dir)
